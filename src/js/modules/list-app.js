@@ -7,7 +7,7 @@ class ListItem {
 
     add() {
         const li = document.createElement('li');
-        li.textContent = `${this.text}`;
+        li.innerHTML = `${this.text}`;
         this.parent.append(li)
     } 
 

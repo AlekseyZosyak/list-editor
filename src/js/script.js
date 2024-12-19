@@ -7,7 +7,10 @@ window.addEventListener('DOMContentLoaded', () => {
     btn.addEventListener('click', () => {
         if (input.value != null && input.value != '') {
             new ListItem(input.value, ul).add();
-        } 
+            control.reset();
+        } else {
+            control.error();
+        }
         
         
     })

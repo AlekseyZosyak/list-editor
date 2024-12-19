@@ -13,12 +13,31 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 
-const control = {
-    btn : document.querySelector('[data-add]'),
-    input : document.querySelector('input'),
-    ul : document.querySelector('ul'),
-    deleteList : document.querySelectorAll('[data-list-remove]'),
+const dqs = (text, index) => {
+    if (index === 'all') {
+        const element = document.querySelectorAll(text);
+        return element;
+    } else {
+        const element = document.querySelector(text);
+        return element;
+    }
 }
+
+const control = {
+    btn : dqs('[data-add]'),
+    input : dqs('input'),
+    ul : dqs('ul'),
+    deleteList : dqs('[data-list-remove]', 'all'),
+
+    reset: function() {
+        this.input.value = '';
+    },
+
+    error: function() {
+        console.log('error list');
+    }
+}
+
 
 
 
@@ -45,7 +64,7 @@ class ListItem {
 
     add() {
         const li = document.createElement('li');
-        li.textContent = `${this.text}`;
+        li.innerHTML = `${this.text}`;
         this.parent.append(li)
     } 
 
@@ -132,7 +151,10 @@ window.addEventListener('DOMContentLoaded', () => {
     btn.addEventListener('click', () => {
         if (input.value != null && input.value != '') {
             new _modules_list_app__WEBPACK_IMPORTED_MODULE_1__["default"](input.value, ul).add();
-        } 
+            _modules_control__WEBPACK_IMPORTED_MODULE_0__["default"].reset();
+        } else {
+            _modules_control__WEBPACK_IMPORTED_MODULE_0__["default"].error();
+        }
         
         
     })
