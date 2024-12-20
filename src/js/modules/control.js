@@ -10,17 +10,20 @@ const dqs = (text, index) => {
 }
 
 const control = {
+    parent: dqs('.list'),
     btn : dqs('[data-add]'),
     input : dqs('input'),
     ul : dqs('ul'),
     deleteList : dqs('[data-list-remove]', 'all'),
 
-    reset: function() {
+    resetInputValue: function() {
         this.input.value = '';
     },
 
-    error: function() {
-        console.log('error list');
+    errorInputValue: function() {
+        const error = document.createElement('div');
+        error.textContent = 'You not text intup';
+        this.ul.append(error);
     }
 }
 

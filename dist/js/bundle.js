@@ -24,17 +24,20 @@ const dqs = (text, index) => {
 }
 
 const control = {
+    parent: dqs('.list'),
     btn : dqs('[data-add]'),
     input : dqs('input'),
     ul : dqs('ul'),
     deleteList : dqs('[data-list-remove]', 'all'),
 
-    reset: function() {
+    resetInputValue: function() {
         this.input.value = '';
     },
 
-    error: function() {
-        console.log('error list');
+    errorInputValue: function() {
+        const error = document.createElement('div');
+        error.textContent = 'You not text intup';
+        this.ul.append(error);
     }
 }
 
@@ -55,21 +58,33 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _control__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./control */ "./src/js/modules/control.js");
+
 
 class ListItem {
-    constructor(text, parent) {
+    constructor(text, parent, control) {
         this.text = text;
         this.parent = parent;
+        this.control = control;
     }
 
     add() {
         const li = document.createElement('li');
-        li.innerHTML = `${this.text}`;
+        li.classList.add('list-item');
+        li.innerHTML = `
+                    <span class="list-item__text">${this.text}</span>
+                    <button class="list-item__button-add-sublist">add sublist</button>
+                    <button class="list-item__button-remove" data-list-remove>remove</button>`;
         this.parent.append(li)
     } 
 
     removeList() {
-        
+        const {parent} = _control__WEBPACK_IMPORTED_MODULE_0__["default"];
+
+        const items = document.querySelectorAll('.list-item');
+        items.forEach((item, i) => {
+            item.remove()
+        })
     }
 }
 
@@ -146,20 +161,33 @@ __webpack_require__.r(__webpack_exports__);
 
 
 window.addEventListener('DOMContentLoaded', () => {
-    const {input, ul, btn} = _modules_control__WEBPACK_IMPORTED_MODULE_0__["default"];
+    const {input, ul, btn, deleteList, parent} = _modules_control__WEBPACK_IMPORTED_MODULE_0__["default"];
 
     btn.addEventListener('click', () => {
         if (input.value != null && input.value != '') {
             new _modules_list_app__WEBPACK_IMPORTED_MODULE_1__["default"](input.value, ul).add();
-            _modules_control__WEBPACK_IMPORTED_MODULE_0__["default"].reset();
+            _modules_control__WEBPACK_IMPORTED_MODULE_0__["default"].resetInputValue();
         } else {
-            _modules_control__WEBPACK_IMPORTED_MODULE_0__["default"].error();
+            _modules_control__WEBPACK_IMPORTED_MODULE_0__["default"].errorInputValue();
         }
-        
         
     })
 
-   
+    parent.addEventListener('click', (event) => {
+        const target = event.target;
+        const li = document.querySelectorAll('.list-item');
+
+       
+            
+            li.forEach((item, i) => {
+                if (target || target.getAttribute('data-list-remove')) {
+                    item.remove(i);
+                }
+            })
+       
+
+        
+    })
 
     
 })
