@@ -11,23 +11,15 @@ const dqs = (text, index) => {
 
 const control = {
     parent: dqs('.list'),
-    btn : dqs('[data-add]'),
-    input : dqs('input'),
-    ul : dqs('ul'),
-    deleteList : dqs('[data-list-remove]', 'all'),
+    mainButton: dqs('[data-add]'),
+    mainInput: dqs('input'),
+    ul: dqs('ul'),
+    deleteList: dqs('.list-item__button-remove', 'all'),
+}
 
-    resetInputValue: function() {
-        this.input.value = '';
-    },
-
-    errorInputValue: function() {
-        const error = document.createElement('div');
-        error.textContent = 'You not text intup';
-        this.ul.append(error);
-    }
+function resetMainInputValue(data) {
+    data.mainInput.value = '';
 }
 
 
-
-
-export default control;
+export {control, resetMainInputValue};

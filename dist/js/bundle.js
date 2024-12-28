@@ -10,7 +10,8 @@
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */   control: () => (/* binding */ control),
+/* harmony export */   resetMainInputValue: () => (/* binding */ resetMainInputValue)
 /* harmony export */ });
 
 const dqs = (text, index) => {
@@ -25,26 +26,18 @@ const dqs = (text, index) => {
 
 const control = {
     parent: dqs('.list'),
-    btn : dqs('[data-add]'),
-    input : dqs('input'),
-    ul : dqs('ul'),
-    deleteList : dqs('[data-list-remove]', 'all'),
+    mainButton: dqs('[data-add]'),
+    mainInput: dqs('input'),
+    ul: dqs('ul'),
+    deleteList: dqs('.list-item__button-remove', 'all'),
+}
 
-    resetInputValue: function() {
-        this.input.value = '';
-    },
-
-    errorInputValue: function() {
-        const error = document.createElement('div');
-        error.textContent = 'You not text intup';
-        this.ul.append(error);
-    }
+function resetMainInputValue(data) {
+    data.mainInput.value = '';
 }
 
 
 
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (control);
 
 /***/ }),
 
@@ -76,16 +69,8 @@ class ListItem {
                     <button class="list-item__button-add-sublist">add sublist</button>
                     <button class="list-item__button-remove" data-list-remove>remove</button>`;
         this.parent.append(li)
-    } 
-
-    removeList() {
-        const {parent} = _control__WEBPACK_IMPORTED_MODULE_0__["default"];
-
-        const items = document.querySelectorAll('.list-item');
-        items.forEach((item, i) => {
-            item.remove()
-        })
     }
+
 }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ListItem);
@@ -161,36 +146,53 @@ __webpack_require__.r(__webpack_exports__);
 
 
 window.addEventListener('DOMContentLoaded', () => {
-    const {input, ul, btn, deleteList, parent} = _modules_control__WEBPACK_IMPORTED_MODULE_0__["default"];
+    const { mainInput, ul, mainButton, deleteList, parent } = _modules_control__WEBPACK_IMPORTED_MODULE_0__.control;
 
-    btn.addEventListener('click', () => {
-        if (input.value != null && input.value != '') {
-            new _modules_list_app__WEBPACK_IMPORTED_MODULE_1__["default"](input.value, ul).add();
-            _modules_control__WEBPACK_IMPORTED_MODULE_0__["default"].resetInputValue();
-        } else {
-            _modules_control__WEBPACK_IMPORTED_MODULE_0__["default"].errorInputValue();
-        }
+    function test() {
+        const element = document.querySelectorAll('.list-item__button-remove');
+        return element;
+    }
+    function test2() {
+        const element = document.querySelectorAll('.list-item');
+        return element;
+    }
+
+    function removeList(index) {
         
+        const items = test2();
+        items.forEach((item, i) => {
+            if (i == index) {
+                item.remove()
+            }
+        })
+    }
+
+
+    mainButton.addEventListener('click', () => {
+        if (mainInput.value != null && mainInput.value != '') {
+            new _modules_list_app__WEBPACK_IMPORTED_MODULE_1__["default"](mainInput.value, ul).add();
+            (0,_modules_control__WEBPACK_IMPORTED_MODULE_0__.resetMainInputValue)(_modules_control__WEBPACK_IMPORTED_MODULE_0__.control);
+            test();
+            test2();
+        }
     })
 
     parent.addEventListener('click', (event) => {
         const target = event.target;
-        const li = document.querySelectorAll('.list-item');
 
-       
-            
-            li.forEach((item, i) => {
-                if (target || target.getAttribute('data-list-remove')) {
-                    item.remove(i);
+        // delete element
+        if (target && target.classList.contains('list-item__button-remove')) {
+            const add = test();
+            add.forEach((item, i) => {
+                if (target == item) {
+                   removeList(i);
                 }
             })
-       
+        }
 
-        
     })
-
     
-})
+});
 })();
 
 /******/ })()
