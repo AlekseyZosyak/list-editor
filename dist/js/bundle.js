@@ -2,6 +2,26 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/js/modules/collector.js":
+/*!*************************************!*\
+  !*** ./src/js/modules/collector.js ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+
+function collectorСollection(selector) {
+    const element = document.querySelectorAll(selector);
+    return element;
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (collectorСollection);
+
+/***/ }),
+
 /***/ "./src/js/modules/control.js":
 /*!***********************************!*\
   !*** ./src/js/modules/control.js ***!
@@ -52,6 +72,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _control__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./control */ "./src/js/modules/control.js");
+/* harmony import */ var _collector__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./collector */ "./src/js/modules/collector.js");
+
 
 
 class ListItem {
@@ -71,21 +93,63 @@ class ListItem {
         this.parent.append(li)
     }
 
-    subListElement() {
-        const ul = document.createElement('ul');
-        ul.classList.add('list-item');
-        ul.innerHTML = `<li>
-                    <div>
-                        <input type="text">
-                        <button data-add-sublist>add sub list</button>
-                    </div>
-                    </li>`
-        this.parent.append(ul)
-    }
-
 }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ListItem);
+
+/***/ }),
+
+/***/ "./src/js/modules/sub-list.js":
+/*!************************************!*\
+  !*** ./src/js/modules/sub-list.js ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _list_app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./list-app */ "./src/js/modules/list-app.js");
+/* harmony import */ var _collector__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./collector */ "./src/js/modules/collector.js");
+
+
+
+class SubList extends _list_app__WEBPACK_IMPORTED_MODULE_0__["default"]{
+    constructor(text) {
+        super();
+        this.text = text;
+    }
+
+    subList(i) {
+        const elements = (0,_collector__WEBPACK_IMPORTED_MODULE_1__["default"])('.list-item');
+
+        const ul = document.createElement('ul');
+        ul.classList.add('sub-list-item');
+        ul.innerHTML = `
+                        <input class="add-sub-input" type="text">
+                        <button class="add-sub-list-btn" data-add-sublist>add</button>
+                        <button class="closet">closet</button> 
+                        `
+        elements[i].append(ul)
+        
+    }
+
+    subListElement(i) {
+        const elements = (0,_collector__WEBPACK_IMPORTED_MODULE_1__["default"])('.list-item');
+
+        const li = document.createElement('li');
+        li.classList.add('list-item');
+        li.innerHTML = `
+                        <span class="list-item__text">${this.text}</span>
+                         <button class="list-item__button-add-sublist">add sublist</button>
+                        <button class="list-item__button-remove" data-list-remove>remove</button>`;
+        elements[i].append(li);
+    }
+
+  
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SubList);
 
 /***/ })
 
@@ -154,11 +218,14 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_control__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/control */ "./src/js/modules/control.js");
 /* harmony import */ var _modules_list_app__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/list-app */ "./src/js/modules/list-app.js");
+/* harmony import */ var _modules_sub_list__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/sub-list */ "./src/js/modules/sub-list.js");
+
 
 
 
 window.addEventListener('DOMContentLoaded', () => {
     const { mainInput, ul, mainButton, deleteList, parent } = _modules_control__WEBPACK_IMPORTED_MODULE_0__.control;
+
 
     function collectorСollection(selector) {
         const element = document.querySelectorAll(selector);
@@ -174,6 +241,14 @@ window.addEventListener('DOMContentLoaded', () => {
         })
     }
 
+    function closet(index) {
+        const elements = collectorСollection('.sub-list-item');
+        elements.forEach((item, i) => {
+            if (i == index) {
+                item.remove();
+            }
+        })
+    }
 
     mainButton.addEventListener('click', () => {
         if (mainInput.value != null && mainInput.value != '') {
@@ -181,6 +256,7 @@ window.addEventListener('DOMContentLoaded', () => {
             (0,_modules_control__WEBPACK_IMPORTED_MODULE_0__.resetMainInputValue)(_modules_control__WEBPACK_IMPORTED_MODULE_0__.control);
         }
     })
+
 
     parent.addEventListener('click', (event) => {
         const target = event.target;
@@ -191,24 +267,46 @@ window.addEventListener('DOMContentLoaded', () => {
             const elements = collectorСollection('.list-item__button-remove');
             elements.forEach((item, i) => {
                 if (target == item) {
-                   removeList(i);
+                    removeList(i);
                 }
             })
         }
 
-        // add sublist
-
+        // add sublist control
+        
         if (target && target.classList.contains('list-item__button-add-sublist')) {
             const elements = collectorСollection('.list-item__button-add-sublist');
             elements.forEach((item, i) => {
                 if (target == item) {
-                   new _modules_list_app__WEBPACK_IMPORTED_MODULE_1__["default"](Text, elements[i]).subListElement();
+                    new _modules_sub_list__WEBPACK_IMPORTED_MODULE_2__["default"](null, elements[i]).subList(i);
                 }
             });
         }
 
-    })
-    
+        if (target && target.classList.contains('closet')) {
+            const elements = collectorСollection('.closet');
+            elements.forEach((item, i) => {
+                if (target == item) {
+                    closet(i);
+                }
+            })
+        }
+        // add sublist element
+
+        // if (target && target.classList.contains('add-sub-list-btn')) {
+        //     const inputs = collectorСollection('.add-sub-input');
+        //     const elements = collectorСollection('.add-sub-list-btn');
+        //     elements.forEach((item, i) => {
+        //         if (target == item) {
+        //             new SubList(inputs[i].value, elements[i]).subListElement(i);
+        //         }
+        //     });
+        // }
+        
+        
+        
+    });
+
 });
 })();
 
