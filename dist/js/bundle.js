@@ -61,7 +61,7 @@ class ListItem {
         this.control = control;
     }
 
-    add() {
+    listElement() {
         const li = document.createElement('li');
         li.classList.add('list-item');
         li.innerHTML = `
@@ -69,6 +69,18 @@ class ListItem {
                     <button class="list-item__button-add-sublist">add sublist</button>
                     <button class="list-item__button-remove" data-list-remove>remove</button>`;
         this.parent.append(li)
+    }
+
+    subListElement() {
+        const ul = document.createElement('ul');
+        ul.classList.add('list-item');
+        ul.innerHTML = `<li>
+                    <div>
+                        <input type="text">
+                        <button data-add-sublist>add sub list</button>
+                    </div>
+                    </li>`
+        this.parent.append(ul)
     }
 
 }
@@ -148,19 +160,14 @@ __webpack_require__.r(__webpack_exports__);
 window.addEventListener('DOMContentLoaded', () => {
     const { mainInput, ul, mainButton, deleteList, parent } = _modules_control__WEBPACK_IMPORTED_MODULE_0__.control;
 
-    function test() {
-        const element = document.querySelectorAll('.list-item__button-remove');
-        return element;
-    }
-    function test2() {
-        const element = document.querySelectorAll('.list-item');
+    function collectorСollection(selector) {
+        const element = document.querySelectorAll(selector);
         return element;
     }
 
     function removeList(index) {
-        
-        const items = test2();
-        items.forEach((item, i) => {
+        const elements = collectorСollection('.list-item');
+        elements.forEach((item, i) => {
             if (i == index) {
                 item.remove()
             }
@@ -170,10 +177,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
     mainButton.addEventListener('click', () => {
         if (mainInput.value != null && mainInput.value != '') {
-            new _modules_list_app__WEBPACK_IMPORTED_MODULE_1__["default"](mainInput.value, ul).add();
+            new _modules_list_app__WEBPACK_IMPORTED_MODULE_1__["default"](mainInput.value, ul).listElement();
             (0,_modules_control__WEBPACK_IMPORTED_MODULE_0__.resetMainInputValue)(_modules_control__WEBPACK_IMPORTED_MODULE_0__.control);
-            test();
-            test2();
         }
     })
 
@@ -181,13 +186,25 @@ window.addEventListener('DOMContentLoaded', () => {
         const target = event.target;
 
         // delete element
+
         if (target && target.classList.contains('list-item__button-remove')) {
-            const add = test();
-            add.forEach((item, i) => {
+            const elements = collectorСollection('.list-item__button-remove');
+            elements.forEach((item, i) => {
                 if (target == item) {
                    removeList(i);
                 }
             })
+        }
+
+        // add sublist
+
+        if (target && target.classList.contains('list-item__button-add-sublist')) {
+            const elements = collectorСollection('.list-item__button-add-sublist');
+            elements.forEach((item, i) => {
+                if (target == item) {
+                   new _modules_list_app__WEBPACK_IMPORTED_MODULE_1__["default"](Text, elements[i]).subListElement();
+                }
+            });
         }
 
     })
