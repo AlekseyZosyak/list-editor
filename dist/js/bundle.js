@@ -91,17 +91,30 @@ class ListItem {
         const upArrow = `<button class="up">&uarr;</button>`;
         const notupArrow = `<button>&darr;</button>`;
         
-        const add = [];
+        let add = [];
         const li = document.createElement('li');
         li.classList.add('list-item');
-        this.parent.append(li);
-        
-        let elements = (0,_collector__WEBPACK_IMPORTED_MODULE_0__["default"])('.list-item');
-        elements.push(add);
-        let a = add.map(function(item, i) {
-            console.log(item[i])
-        });
-        console.log(a);
+        add.push(li)
+        add.forEach(item => this.parent.append(item))
+        // this.parent.append(li);
+        console.log(add)
+        // let elements = collectorСollection('.list-item');
+        // add.push(elements);
+        // let a = add.map((item, i) => {
+        //     if (item[i] === 0 && item[i] === '') {
+        //         item[i].innerHTML = `
+        //     <span class="list-item__text">${this.text}</span>
+        //     <button class="list-item__button-add-sublist">add sublist</button>
+        //     <button class="list-item__button-remove" data-list-remove>remove</button>`;
+        //     } else {
+        //         item[i].innerHTML = `
+        //     <span class="list-item__text">${this.text}</span>
+        //     <button class="list-item__button-add-sublist">add sublist</button>
+        //     ${upArrow}
+        //     <button class="list-item__button-remove" data-list-remove>remove</button>`;
+        //     }
+        // });
+        // console.log(add);
     }
 
     subList(i) {
@@ -138,6 +151,8 @@ class ListItem {
 }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ListItem);
+
+
 
 /***/ })
 
