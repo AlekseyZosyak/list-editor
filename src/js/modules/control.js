@@ -18,7 +18,7 @@ const control = {
 }
 
 function resetMainInputValue(data) {
-    data.mainInput.value = '';
+    data.value = '';
 }
 
 
