@@ -1,6 +1,7 @@
 **/*.log
 .DS_Store
 .idea
+.vscode
 lib
 node_modules
 public/output.css

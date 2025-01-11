@@ -74,7 +74,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _collector__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./collector */ "./src/js/modules/collector.js");
 
 
-
+function test() {
+    const elements = document.querySelectorAll('.list-item');
+    return elements;
+}
 
 class ListItem {
     constructor(text, parent, control) {
@@ -82,39 +85,81 @@ class ListItem {
         this.parent = parent;
         this.control = control;
         this.ul = document.createElement('ul');
-        
+        this.data = null;
     }
 
+ 
 
-    listElement() { 
+
+    listElement() {
+       test();
         
-        const upArrow = `<button class="up">&uarr;</button>`;
-        const notupArrow = `<button>&darr;</button>`;
-        
-        let add = [];
         const li = document.createElement('li');
+        li.innerHTML = `<span class="list-item__text">${this.text}</span>
+                ${this.test()}
+                <button class="list-item__button-add-sublist">add sublist</button>
+                <button class="list-item__button-remove" data-list-remove>remove</button>`;
         li.classList.add('list-item');
-        add.push(li)
-        add.forEach(item => this.parent.append(item))
-        // this.parent.append(li);
-        console.log(add)
-        // let elements = collectorСollection('.list-item');
-        // add.push(elements);
-        // let a = add.map((item, i) => {
-        //     if (item[i] === 0 && item[i] === '') {
-        //         item[i].innerHTML = `
-        //     <span class="list-item__text">${this.text}</span>
-        //     <button class="list-item__button-add-sublist">add sublist</button>
-        //     <button class="list-item__button-remove" data-list-remove>remove</button>`;
-        //     } else {
-        //         item[i].innerHTML = `
-        //     <span class="list-item__text">${this.text}</span>
-        //     <button class="list-item__button-add-sublist">add sublist</button>
-        //     ${upArrow}
-        //     <button class="list-item__button-remove" data-list-remove>remove</button>`;
-        //     }
-        // });
-        // console.log(add);
+        this.parent.append(li);
+        this.data.push(li)
+
+
+
+        function f() {
+            const elements = document.querySelectorAll('.list-item');
+
+            const upArrow = `<button class="up">&uarr;</button>`;
+            const notupArrow = `<button>&darr;</button>`;
+
+
+            let bo = elements;
+            let key = null;
+            bo.forEach((item, i) => {
+                if (i == 0) {
+                   
+                    key = true
+                    console.log(0)
+                } else {
+                    key = false
+                    console.log(1)
+                }
+            })
+
+            let test = key ? upArrow : notupArrow;
+            return test;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+        // data.forEach((item, i) => {
+        //     if (i == 0) {
+        //                 console.log(`${item[i]} - 1`);
+        //                 item.innerHTML = `
+        //                     <span class="list-item__text">${this.text}</span>
+        //                     <button class="list-item__button-add-sublist">add sublist</button>
+        //                     <button class="list-item__button-remove" data-list-remove>remove</button>`;
+        //                     this.parent.append(item);
+        //             } else {
+        //                 console.log(`${i} - 2`);
+        //                 console.log(`${item[i]} - 2`);
+        //                 item.innerHTML = `
+        //                     <span class="list-item__text">${this.text}</span>
+        //                     <button class="list-item__button-add-sublist">add sublist</button>
+        //                     ${upArrow}
+        //                     <button class="list-item__button-remove" data-list-remove>remove</button>`;
+        //                     this.parent.append(item)
+        //             }
+        // }) 
+
     }
 
     subList(i) {
