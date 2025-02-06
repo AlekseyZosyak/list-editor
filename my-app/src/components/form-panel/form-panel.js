@@ -1,12 +1,25 @@
+import { Component } from "react";
 
 
-const FormPanel = () => {
-    return (
-        <div>
-            <input type="text" name="name" id="1" />
-            <button>click</button>
-        </div>
-    )
+class FormPanel extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            name: ''
+        }
+    }
+
+
+   
+
+    render() {
+        return (
+            <div>
+                <input type="text" name="name"/>
+                <button onClick={this.addItem}>click</button>
+            </div>
+        )
+    }
 }
 
 export default FormPanel;
