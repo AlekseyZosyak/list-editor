@@ -31,7 +31,7 @@ class App extends Component {
         return (
             <div className="app">
                 <Header/>
-                <FormPanel/>
+                <FormPanel addItem={this.addItem}/>
                 <List data={data}/>
             </div>
         )

@@ -5,7 +5,8 @@ class FormPanel extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: ''
+            value: '',
+            reset: ''
         }
     }
 
@@ -15,14 +16,15 @@ class FormPanel extends Component {
     
     render() {
         const { value } = this.state;
+        const { name, addItem } = this.props;
 
         return (
             <div>
                 <input type="text" name="name" 
-                    value={this.state.value}
+                    
                     onChange={this.value}/>
-                <button>click</button>
-                <p>{value}</p>
+                    <button onClick={() => {addItem(value)}}>click</button>
+                    <p>{name}</p>
             </div>
         )
     }
