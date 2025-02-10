@@ -1,14 +1,16 @@
 import ListItem from "../list-item/list-item"
 
-const List = ({data}) => {
+const List = ({ data, onDelete }) => {
 
     const elements = data.map(item => {
-        const { id, name } = item;
+        const { key, name } = item;
 
         return (
-            <ListItem key={id} name={name}/>
+            <ListItem key={key} name={name} onDelete={onDelete}/>
         )
     });
+
+   
 
     return (
         <ul>

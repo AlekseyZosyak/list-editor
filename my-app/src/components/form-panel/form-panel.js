@@ -21,7 +21,6 @@ class FormPanel extends Component {
         return (
             <div>
                 <input type="text" name="name" 
-                    
                     onChange={this.value}/>
                     <button onClick={() => {addItem(value)}}>click</button>
                     <p>{name}</p>

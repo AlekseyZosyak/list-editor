@@ -10,20 +10,32 @@ class App extends Component {
         this.state = {
             data: []
         };
-        this.maxId = 1;
+        this.maxId = 0;
     }
 
     addItem = (name) => {
         const newItem = {
             name: name,
-            id: this.maxId++
+            key: this.maxId++
         }
         this.setState(({data}) => {
             const newArr = [...data, newItem];
             console.log(newArr)
             return { data: newArr}
         })
+
+        console.log(this.state.data)
     }
+
+    onDelete = (id) => {
+        this.setState(({data}) => {
+            return {
+                data: data.map(item => item.id !== id)
+            }
+        })
+    }
+
+   
 
     render() {
         const { data } = this.state;
@@ -32,7 +44,7 @@ class App extends Component {
             <div className="app">
                 <Header/>
                 <FormPanel addItem={this.addItem}/>
-                <List data={data}/>
+                <List data={data} onDelete={() => this.onDelete(data.id)}/>
             </div>
         )
     }
